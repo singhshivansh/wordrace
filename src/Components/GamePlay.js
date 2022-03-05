@@ -98,7 +98,15 @@ const GamePlay = () => {
             })
             setloader(false);
           
-        }).catch(err=>console.log(err));
+        }).catch(err=>{
+            setloader(false);
+            setleaderboard({
+                averageScore : 0,
+                highestScore : 0,
+                totalGame : 0
+            });
+            console.log(err);
+        });
 
     }
 
