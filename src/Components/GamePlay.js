@@ -4,6 +4,10 @@ import $ from 'jquery';
 import randomSentence from 'random-sentence';
 import Lottie from 'react-lottie';
 import loaderJson from '../assets/loader.json';
+import errorSound from '../assets/error.wav';
+import levelUpAudio from '../assets/level.wav';
+import successAudio from '../assets/levelUp.wav';
+
 
 const GamePlay = () => {
 
@@ -16,6 +20,9 @@ const GamePlay = () => {
     const playerName = localStorage.getItem('playerName');
     const [players, setplayers] = useState([]);
     const [loader, setloader] = useState(false);
+    const audio = new Audio(errorSound);
+    const successSound = new Audio(successAudio);
+    const levelUpSound = new Audio(levelUpAudio);
 
     const [leaderboard, setleaderboard] = useState({
         totalGame : 0,
@@ -38,16 +45,19 @@ const GamePlay = () => {
             document.getElementById('alert').innerHTML = '';
                 if(e.target.value === word){
                     document.getElementById('alert').innerHTML = "Congratulations! You have completed this Level";
+                    levelUpSound.play();
                     setanswer('');
                     getWord();
                     setmultiplier(5);
                     setlevel(level+1);
                     setscore(score + (multiplier * level));
                 }
+                successSound.play();
             return;
         }
         
         document.getElementById('alert').innerHTML = "Please Enter Correctly";
+        audio.play();
         if(stackLimit > 0){
             setstackLimit(stackLimit-1);
         }
@@ -59,7 +69,7 @@ const GamePlay = () => {
 
     const getWord = () => {
         const sentence = randomSentence({words : 3});
-        setword(sentence);
+        setword(sentence.slice(0, sentence.length-1));
         
         setstackLimit(10);
     }
@@ -158,7 +168,7 @@ const GamePlay = () => {
 
 
             <div>
-                <input className='border-2 border-green-500 rounded-lg px-3 py-2 col-6' placeholder='Enter the Sentence here' onChange={checkSpelling} value={answer} />
+                <input className='border-2 border-green-500 rounded-lg px-3 py-2 col-6' placeholder='Enter the above Sentence here' onChange={checkSpelling} value={answer} />
             </div>
             <div className='text-xl py-3'> Misstype Left :  <span className='text-red-500 font-semibold rounded-xl'>{stackLimit}</span></div>
             <div className='flex justify-center'>
@@ -331,6 +341,25 @@ const GamePlay = () => {
                 </div>
                 </div>
             </div>
+            </div>
+
+            <div class="modal fade" id="successfullModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title font-bold text-2xl" id="exampleModalLongTitle">Instructions</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Saved Successfully !
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
             </div>
 
         </div>
