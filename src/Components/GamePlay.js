@@ -73,6 +73,7 @@ const GamePlay = () => {
     }
 
     const savePlayerInfo = () => {
+        setloader(true);
         const data = {
             name : playerName,
             score : score
@@ -82,6 +83,7 @@ const GamePlay = () => {
             $("#closeModalButton").click();
             getPlayers();
             resetGame();
+            setloader(false);
             return;
         }).catch(err=>console.log(err));
     }
@@ -145,6 +147,9 @@ const GamePlay = () => {
                 <h3 className='text-xl font-medium'>Player : <span className='text-green-600'>{playerName}</span></h3>
                 <div>
                     <button className='px-4 py-1 rounded-lg bg-green-500 text-white' onClick={e=>{window.location.href = '/'}}>New Game</button>
+                    <button type="button" class="px-4 ml-2 py-1 rounded-lg bg-gray-400 text-white" data-toggle="modal" data-target="#exampleModalCenter">
+                        Instructions
+                    </button>
                 </div>
             </div>
             <div className='flex justify-center'>
@@ -208,8 +213,8 @@ const GamePlay = () => {
                     </div>
                 </div>
 
-                <div className='flex justify-around mt-4'>
-                    <div className='col-4 bg-gray-400 text-white shadow-2xl px-3 py-2 rounded-lg justify-between'>
+                <div className='lg:flex mx-2 justify-around mt-4'>
+                    <div className='col-lg-4 col-sm-10 bg-gray-400 text-white shadow-2xl px-3 py-2 rounded-lg justify-between'>
                         <div className='text-white font-bold text-xl'><i style={{color:'#FFD700'}} class="fa-solid  fa-trophy"></i></div>
                         <table className='table-auto  p-3 col-10'>
                             <thead>
@@ -231,8 +236,8 @@ const GamePlay = () => {
                         </table>
                     </div>
 
-                    <div className='col-6 flex px-3 py-2 rounded-lg justify-between'>
-                                               <div class="w-full sm:w-3/4 px-2 flex-1 my-2 transform transition delay-75 hover:scale-105">
+                    <div className='col-lg-6 col-sm-10 flex px-3 py-2 rounded-lg justify-around'>
+                        <div class="w-full sm:w-3/4 px-2 flex-1 my-2 transform transition delay-75 hover:scale-105">
                             <div class="w-full ">
                                 <div id="jh-stats-positive" className="flex flex-col justify-center px-4 py-3 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
                                     <div className="">
@@ -269,10 +274,6 @@ const GamePlay = () => {
                 </div>
             </div>
 
-            <button type="button" className="d-none btn btn-primary" data-toggle="modal" id="modalBuuton" data-target="#exampleModal">
-            Launch demo modal
-            </button>
-
             <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
@@ -288,6 +289,45 @@ const GamePlay = () => {
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" onClick={resetGame} data-dismiss="modal">No</button>
                     <button type="button" onClick={savePlayerInfo} className="btn btn-primary">Yes</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
+            
+
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-bold text-2xl" id="exampleModalLongTitle">Instructions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div className='px-3' id='instructionContainer'>
+                        <div  className='text-xl font-semibold text-start'>How to play the game? </div>
+                        <ul className='list-disc text-start'>
+                            <li>Register your name to get into the game.</li>
+                            <li>See the displayed words carefully </li>
+                            <li>Type in the words without getting mistakes.</li>
+                        </ul>
+
+                        <div className='text-xl font-semibold mt-3 text-start'>How the game plays?</div>
+                        <ul className='list-disc text-start'>
+                            <li>The scores are directly proportional to the level of the gamer.
+                                (e.g - For Level 4 Resultant Score = (4 * Multiplier))
+                            </li>
+                            <li>you can only miss type 10 times</li>
+                            <li>the no. of times you miss type, the multiplier will decrease accordingly. </li>
+                            <li>total score at one level will be the the score*multiplier</li>
+                            <li>The overall score will be the addition of all the scores at each level.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 </div>
             </div>
