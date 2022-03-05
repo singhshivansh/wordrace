@@ -31,7 +31,6 @@ const GamePlay = () => {
             document.getElementById('alert').innerHTML = "EndGame! Please Try Again";
             alert("EndGame! Please Try Again");
             $("#modalBuuton").click();
-            resetGame();
         }
 
         if(e.target.value[i] === word[i]){
@@ -82,6 +81,7 @@ const GamePlay = () => {
             alert('Saved Successfully');
             $("#closeModalButton").click();
             getPlayers();
+            resetGame();
             return;
         }).catch(err=>console.log(err));
     }
@@ -159,10 +159,10 @@ const GamePlay = () => {
             <div className='flex justify-center'>
                 <div className='flex justify-around col-2'>
                     <button className='px-4 py-1 rounded-lg bg-red-500 text-white' onClick={resetGame}>Reset</button>
-                    <button className='px-4 py-1 rounded-lg bg-blue-500 text-white'>Save</button>
+                    <button className='px-4 py-1 rounded-lg bg-blue-500 text-white' onClick={savePlayerInfo}>Save</button>
                 </div>
             </div>
-            <div id="alert"></div>
+            <div id="alert" className='py-3'></div>
 
             <div className='d-flex justify-content-center'>
                 <div className='col-10 d-flex justify-content-around'>
@@ -196,24 +196,12 @@ const GamePlay = () => {
                         </div>
                     </div>
 
-                    {/* <table className='table'>
-                        <tr>
-                            <th>Score</th>
-                            <th>Level</th>
-                            <th>Multiplier</th>
-                        </tr>
-                        <tr className='mt-2'>
-                            <td className='bg-green-500 mt-2 py-2 ' >{score}</td>
-                            <td>{level}</td>
-                            <td>{multiplier}</td>
-                        </tr>
-                    </table> */}
                 </div>
             </div>
 
             <hr className='my-3'></hr>
 
-            <div>
+            <div className='mb-5'>
                 <div className='text-3xl font-semibold border-x-2 border-green-500 flex justify-center'>
                     <div className='border-l-4 border-r-4 rounded-lg border-yellow-500 px-3'>
                         Game Stats <i class="fa-solid fa-chart-pie"></i>
@@ -221,9 +209,9 @@ const GamePlay = () => {
                 </div>
 
                 <div className='flex justify-around mt-4'>
-                    <div className='col-4 bg-yellow-600 px-3 py-2 rounded-lg justify-between'>
+                    <div className='col-4 bg-gray-400 text-white shadow-2xl px-3 py-2 rounded-lg justify-between'>
                         <div className='text-white font-bold text-xl'><i style={{color:'#FFD700'}} class="fa-solid  fa-trophy"></i></div>
-                        <table className='table-auto p-3 col-10'>
+                        <table className='table-auto  p-3 col-10'>
                             <thead>
                                 <tr>
                                     <th>Player</th>
@@ -270,7 +258,7 @@ const GamePlay = () => {
                                 <div id="jh-stats-positive" className="flex flex-col justify-center px-4 py-3 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
                                     <div className="">
                                         
-                                        <p class="text-3xl font-semibold text-center text-gray-800">{leaderboard.averageScore}</p>
+                                        <p class="text-3xl font-semibold text-center text-gray-800">{leaderboard.averageScore.toFixed(2)}</p>
                                         <p class="text-lg text-center text-gray-500">Average Score</p>
                                     </div>
                                 </div>
@@ -290,7 +278,7 @@ const GamePlay = () => {
                 <div className="modal-content">
                 <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalLabel">Confirmation</h5>
-                    <button type="button" id="closeModalButton" className="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" id="closeModalButton" onClick={resetGame} className="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -298,7 +286,7 @@ const GamePlay = () => {
                     Do you want to Save your Score?
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" className="btn btn-secondary" onClick={resetGame} data-dismiss="modal">No</button>
                     <button type="button" onClick={savePlayerInfo} className="btn btn-primary">Yes</button>
                 </div>
                 </div>
